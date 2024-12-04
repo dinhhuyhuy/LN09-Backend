@@ -1,5 +1,6 @@
 package com.example.LN09_Backend.entity;
 
+import com.example.LN09_Backend.controller.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,8 +30,6 @@ public class Task {
     @Column(name = "duedate", nullable = false)
     private LocalDate duedate;
 
-    @Lob
     @Column(name = "status", nullable = false)
     private String status;
-
 }
