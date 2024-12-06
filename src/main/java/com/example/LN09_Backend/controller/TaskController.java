@@ -3,6 +3,8 @@ package com.example.LN09_Backend.controller;
 import com.example.LN09_Backend.entity.Task;
 import com.example.LN09_Backend.repository.TaskRepository;
 import com.example.LN09_Backend.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,9 @@ public class TaskController {
 
     private final TaskService taskService;
 
+    @Autowired
+    private TaskRepository taskRepository;
+
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
@@ -23,21 +28,23 @@ public class TaskController {
         return taskService.findAll();
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+        System.out.println(task);
+        Task savedTask = taskRepository.save(task);
+        return new ResponseEntity<>(savedTask, HttpStatus.CREATED);
+    }
+
     @PutMapping("/{taskId}/status")
     public ResponseEntity updateTaskStatus(
             @PathVariable String taskId,
             @RequestBody String status) {
-        // Fetch the task by ID (you'll replace this with your service logic)
-//        System.out.println("taskId = " + taskId);
-//        System.out.println("status = " + status);
 
-        // {"status":"DONE"} => DONE
         status = status.substring(11, status.length() - 2);
 
         if(status.equals("TODO"))
             status = "TO-DO";
 
-//        System.out.println("status = " + status);
         Task task = taskService.getTaskById(taskId);
         if (task == null) {
             System.out.println("Task not found");

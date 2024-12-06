@@ -1,6 +1,5 @@
 package com.example.LN09_Backend.entity;
 
-import com.example.LN09_Backend.controller.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
